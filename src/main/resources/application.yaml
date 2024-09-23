@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: crud
+  data:
+    mongodb:
+      uri: mongodb+srv://root:password1x1x@cluster0.pnlyb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      database: mydb
+      username: root
+      password: password1x1x

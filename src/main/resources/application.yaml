@@ -3,4 +3,7 @@ spring:
     name: crud
   data:
     mongodb:
-      uri: mongodb://root:password@localhost:27017/db?authSource=admin
+      uri: ${MONGODB_URI}
+      database: ${MONGODB_DATABASE}
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}

@@ -6,7 +6,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.UUID;
 
 @Document("tasks")
 public class Task {
@@ -19,7 +18,7 @@ public class Task {
 
     @LastModifiedBy
     @LastModifiedDate
-    private String taskName;
+    private String name;
 
     @LastModifiedBy
     @LastModifiedDate
@@ -33,12 +32,12 @@ public class Task {
         this.id = id;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getName() {
+        return name;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName.toLowerCase();
+    public void setName(String name) {
+        this.name = name.toLowerCase();
     }
 
     public String getDescription() {

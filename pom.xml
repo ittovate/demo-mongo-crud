@@ -53,6 +53,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
 
 		<!-- Environment Variables -->
 		<dependency>
@@ -74,7 +79,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>3.4.0</version>
 				<configuration>
-					<configLocation>../config/checkstyle/sun_checks_custom.xml</configLocation>
+					<configLocation>./config/checkstyle/sun_checks_custom.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>

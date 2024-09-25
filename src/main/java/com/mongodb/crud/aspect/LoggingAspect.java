@@ -24,7 +24,7 @@ public class LoggingAspect {
      * @return the return value of the method
      */
     @Around("execution(* com.mongodb.crud.*.*.*(..))")
-    public Object log(ProceedingJoinPoint joinPoint) {
+    public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         String className = getClassName(joinPoint);
         String methodName = getMethodName(joinPoint);
         StringBuilder args = getMethodArgs(joinPoint);
@@ -35,6 +35,7 @@ public class LoggingAspect {
             returnVal = joinPoint.proceed();
         } catch (Throwable throwable) {
             LOGGER.error("Exception {} in ===> {}.{} with arguments: [{}]", throwable, className, methodName, args);
+            throw throwable;
         }
         LOGGER.info("Finished ===> {}.{} with arguments: [{}] and returned {}", className, methodName, args, returnVal);
 

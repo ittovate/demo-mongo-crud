@@ -17,9 +17,11 @@ Ensure the following tools are installed to run the project smoothly:
    ```
    cd mongodb-crud
    ```
-3. Duplicate `src/main/resources/keys.env` file and rename the copy to `.env` then replace placeholders with your values.
-4. **Build and run the project**
+3. **Setup environmnet variables**:
+   1. Duplicate `src/main/resources/keys.env` file.
+   2. Rename the copy to `.env` and replace placeholders with your values.
+5. **Build and run the project**:
    ```
    mvn clean install spring-boot:run
    ```
-5. **Stop the service**: After testing, stop the project using hotkey `CTRL + C`.
+6. **Stop the service**: After testing, stop the project using hotkey `CTRL + C`.

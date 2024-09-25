@@ -1,6 +1,7 @@
 package com.mongodb.crud.service;
 
 import com.mongodb.crud.entity.Task;
+import com.mongodb.crud.exception.DuplicateResourceException;
 import com.mongodb.crud.exception.ResourceNotFoundException;
 import com.mongodb.crud.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -8,12 +9,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_ALREADY_EXIST;
+import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY;
+import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_NOT_FOUND;
+import static java.lang.String.format;
+
 /**
  * The type Task service.
  */
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final String resourceName = Task.class.getSimpleName();
 
     /**
      * Instantiates a new Task service.
@@ -30,6 +37,18 @@ public class TaskService {
      * @param task the task
      */
     public void create(Task task) {
+
+        String taskName = task.getName();
+
+        if (taskName == null || taskName.trim().isEmpty()) {
+            throw new IllegalArgumentException(format(RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY, resourceName, "name"));
+        }
+
+        Task existingTask = getByName(taskName);
+        if (existingTask != null) {
+            throw new DuplicateResourceException(format(RESOURCE_ALREADY_EXIST, resourceName, "name", taskName));
+        }
+
         task.setId(UUID.randomUUID());
         taskRepository.save(task);
     }
@@ -53,12 +72,10 @@ public class TaskService {
         Task task = taskRepository.findByName(name);
 
         if (task == null) {
-            throw new ResourceNotFoundException("Task with name " + name + " is not found.");
+            throw new ResourceNotFoundException(format(RESOURCE_NOT_FOUND, resourceName, "name", name));
         }
-
         return task;
     }
-
 
     /**
      * Update task.

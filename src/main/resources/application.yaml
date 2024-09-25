@@ -7,3 +7,4 @@ spring:
       database: ${MONGODB_DATABASE}
       username: ${MONGODB_USERNAME}
       password: ${MONGODB_PASSWORD}
+      uuid-representation: standard

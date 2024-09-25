@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/public/api/tasks")
+@RequestMapping("/public/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -30,12 +30,11 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-
     /**
-     * Create api response.
+     * Create a task.
      *
-     * @param task the task
-     * @return the api response
+     * @param task the task to be saved to database
+     * @return the created task within custom api response
      */
     @PostMapping("/")
     public ApiResponse<Task> create(@RequestBody Task task) {
@@ -46,7 +45,7 @@ public class TaskController {
     /**
      * Gets all tasks.
      *
-     * @return the tasks
+     * @return all tasks within custom api response
      */
     @GetMapping("/")
     public ApiResponse<List<Task>> getAll() {
@@ -55,10 +54,10 @@ public class TaskController {
     }
 
     /**
-     * Gets task by name.
+     * Gets a task by the name.
      *
      * @param name the name of task
-     * @return the task by the name provided
+     * @return the task by the name provided within custom api response
      */
     @GetMapping("/{name}/")
     public ApiResponse<Task> getByName(@PathVariable String name) {
@@ -67,11 +66,11 @@ public class TaskController {
     }
 
     /**
-     * Update task.
+     * Update a task.
      *
      * @param targetTaskName the target task name
      * @param taskUpdates    the task updates
-     * @return the api response
+     * @return the updated task within custom api response
      */
     @PatchMapping("/{targetTaskName}/")
     public ApiResponse<Task> update(@PathVariable String targetTaskName, @RequestBody Task taskUpdates) {
@@ -80,10 +79,10 @@ public class TaskController {
     }
 
     /**
-     * Delete task.
+     * Delete a task.
      *
-     * @param name the name
-     * @return the api response
+     * @param name the name of task to delete
+     * @return the deleted task within custom api response
      */
     @DeleteMapping("/{name}/")
     public ApiResponse<Task> delete(@PathVariable String name) {

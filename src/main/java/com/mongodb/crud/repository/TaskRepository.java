@@ -4,14 +4,16 @@ import com.mongodb.crud.entity.Task;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
-public interface TaskRepository extends MongoRepository<Task, String> {
+import java.util.UUID;
+
+public interface TaskRepository extends MongoRepository<Task, UUID> {
 
     /**
-     * Gets by name.
+     * Gets task by the name.
      *
      * @param name the name
      * @return the by name
      */
     @Query("{name:'?0'}")
-    Task getByName(String name);
+    Task findByName(String name);
 }

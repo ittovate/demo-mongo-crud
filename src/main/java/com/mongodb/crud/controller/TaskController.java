@@ -1,9 +1,10 @@
 package com.mongodb.crud.controller;
 
+import com.mongodb.crud.config.SwaggerConfig;
 import com.mongodb.crud.entity.Task;
 import com.mongodb.crud.service.TaskService;
 import com.mongodb.crud.util.ApiResponse;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,11 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCES_RETURNED;
+import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_CREATED;
+import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_DELETED;
+import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_FOUND;
+import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_UPDATED;
+import static java.lang.String.format;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 @RestController
 @RequestMapping("/public/api/v1/tasks")
-public class TaskController {
+@Tag(name = "Task Controller", description = "Operations related to task management")
+public class TaskController implements SwaggerConfig {
 
     private final TaskService taskService;
+    private static final String RESOURCE_NAME = Task.class.getSimpleName();
 
     /**
      * Instantiates a new Task controller.
@@ -36,10 +48,11 @@ public class TaskController {
      * @param task the task to be saved to database
      * @return the created task within custom api response
      */
+//    @Operation(summary = CREATE_SUMMARY, description = CREATE_DESCRIPTION)
     @PostMapping("/")
     public ApiResponse<Task> create(@RequestBody Task task) {
         taskService.create(task);
-        return new ApiResponse<>(HttpStatus.CREATED.value(), HttpStatus.CREATED.getReasonPhrase(), task);
+        return new ApiResponse<>(CREATED.value(), format(RESOURCE_CREATED, RESOURCE_NAME), task);
     }
 
     /**
@@ -50,7 +63,7 @@ public class TaskController {
     @GetMapping("/")
     public ApiResponse<List<Task>> getAll() {
         List<Task> tasks = taskService.getAll();
-        return new ApiResponse<>(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), tasks);
+        return new ApiResponse<>(OK.value(), format(RESOURCES_RETURNED, RESOURCE_NAME), tasks);
     }
 
     /**
@@ -62,7 +75,7 @@ public class TaskController {
     @GetMapping("/{name}/")
     public ApiResponse<Task> getByName(@PathVariable String name) {
         Task task = taskService.getByName(name);
-        return new ApiResponse<>(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), task);
+        return new ApiResponse<>(OK.value(), format(RESOURCE_FOUND, RESOURCE_NAME), task);
     }
 
     /**
@@ -75,7 +88,7 @@ public class TaskController {
     @PatchMapping("/{targetTaskName}/")
     public ApiResponse<Task> update(@PathVariable String targetTaskName, @RequestBody Task taskUpdates) {
         Task updatedTask = taskService.update(targetTaskName, taskUpdates);
-        return new ApiResponse<>(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), updatedTask);
+        return new ApiResponse<>(OK.value(), format(RESOURCE_UPDATED, RESOURCE_NAME), updatedTask);
     }
 
     /**
@@ -87,6 +100,6 @@ public class TaskController {
     @DeleteMapping("/{name}/")
     public ApiResponse<Task> delete(@PathVariable String name) {
         Task deletedTask = taskService.delete(name);
-        return new ApiResponse<>(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), deletedTask);
+        return new ApiResponse<>(OK.value(), format(RESOURCE_DELETED, RESOURCE_NAME), deletedTask);
     }
 }

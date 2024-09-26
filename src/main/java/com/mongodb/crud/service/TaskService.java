@@ -1,26 +1,26 @@
 package com.mongodb.crud.service;
 
 import com.mongodb.crud.entity.Task;
-import com.mongodb.crud.exception.DuplicateResourceException;
-import com.mongodb.crud.exception.ResourceNotFoundException;
 import com.mongodb.crud.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_ALREADY_EXIST;
-import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY;
-import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_NOT_FOUND;
-import static java.lang.String.format;
+import static com.mongodb.crud.util.ServiceUtil.validateResourceExists;
+import static com.mongodb.crud.util.ServiceUtil.validateResourceNotDuplicated;
+import static com.mongodb.crud.util.ServiceUtil.validateResourceNotNull;
+import static com.mongodb.crud.util.ServiceUtil.validateStringNotNullOrEmpty;
 
 /**
  * The type Task service.
  */
 @Service
 public class TaskService {
+    private static final String RESOURCE_NAME = Task.class.getSimpleName();
+    private static final String FIELD_NAME = "name";
+
     private final TaskRepository taskRepository;
-    private final String resourceName = Task.class.getSimpleName();
 
     /**
      * Instantiates a new Task service.
@@ -37,17 +37,13 @@ public class TaskService {
      * @param task the task
      */
     public void create(Task task) {
+        validateResourceNotNull(task, RESOURCE_NAME);
 
         String taskName = task.getName();
+        validateStringNotNullOrEmpty(taskName, RESOURCE_NAME, FIELD_NAME);
 
-        if (taskName == null || taskName.trim().isEmpty()) {
-            throw new IllegalArgumentException(format(RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY, resourceName, "name"));
-        }
-
-        Task existingTask = getByName(taskName);
-        if (existingTask != null) {
-            throw new DuplicateResourceException(format(RESOURCE_ALREADY_EXIST, resourceName, "name", taskName));
-        }
+        Task result = taskRepository.findByName(taskName);
+        validateResourceNotDuplicated(result, RESOURCE_NAME, FIELD_NAME, taskName);
 
         task.setId(UUID.randomUUID());
         taskRepository.save(task);
@@ -63,17 +59,14 @@ public class TaskService {
     }
 
     /**
-     * Gets by name.
+     * Gets task by name.
      *
-     * @param name the task
+     * @param taskName task name
      * @return the by name
      */
-    public Task getByName(String name) {
-        Task task = taskRepository.findByName(name);
-
-        if (task == null) {
-            throw new ResourceNotFoundException(format(RESOURCE_NOT_FOUND, resourceName, "name", name));
-        }
+    public Task getByName(String taskName) {
+        Task task = taskRepository.findByName(taskName);
+        validateResourceExists(task, RESOURCE_NAME, FIELD_NAME, taskName);
         return task;
     }
 
@@ -96,11 +89,11 @@ public class TaskService {
     /**
      * Delete task.
      *
-     * @param name the name
+     * @param taskName task name
      * @return the task
      */
-    public Task delete(String name) {
-        Task targetTask = getByName(name);
+    public Task delete(String taskName) {
+        Task targetTask = getByName(taskName);
 
         taskRepository.deleteById(targetTask.getId());
         return targetTask;

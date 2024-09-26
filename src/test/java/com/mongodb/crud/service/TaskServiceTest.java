@@ -113,8 +113,8 @@ class TaskServiceTest {
     @DisplayName("Get Task by Name")
     class GetTaskByNameTest {
         @Test
-        @DisplayName("Get task by name when it exists")
-        void Should_GetTask_When_TaskExists() {
+        @DisplayName("Get task by name when it does exist")
+        void Should_GetTask_When_TaskDoesExist() {
             when(taskRepository.findByName(anyString())).thenReturn(task);
 
             taskService.getByName(expectedName);
@@ -129,8 +129,8 @@ class TaskServiceTest {
         }
 
         @Test
-        @DisplayName("Throw exception when task is not found")
-        void Should_ThrowException_When_TaskIsNotFound() {
+        @DisplayName("Throw exception when task does not exist")
+        void Should_ThrowException_When_TaskDoesNotExist() {
             when(taskRepository.findByName(anyString())).thenReturn(null);
 
             assertThrows(ResourceNotFoundException.class, () -> taskService.getByName(expectedName));

@@ -1,31 +1,15 @@
 package com.mongodb.crud.util;
 
 import com.mongodb.crud.exception.DuplicateResourceException;
-import com.mongodb.crud.exception.NullResourceException;
 import com.mongodb.crud.exception.ResourceNotFoundException;
 
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_ALREADY_EXIST;
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY;
-import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_IS_NULL;
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_NOT_FOUND;
 import static java.lang.String.format;
 
 public final class ServiceUtil {
     private ServiceUtil() {
-    }
-
-    /**
-     * Validate resource not null.
-     *
-     * @param object       the resource
-     * @param resourceName the resource name
-     */
-    public static void validateResourceNotNull(Object object, String resourceName) {
-        if (object == null) {
-            throw new NullResourceException(
-                    format(RESOURCE_IS_NULL, resourceName)
-            );
-        }
     }
 
     /**

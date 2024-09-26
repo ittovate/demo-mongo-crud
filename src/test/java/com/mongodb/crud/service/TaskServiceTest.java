@@ -2,7 +2,6 @@ package com.mongodb.crud.service;
 
 import com.mongodb.crud.entity.Task;
 import com.mongodb.crud.exception.DuplicateResourceException;
-import com.mongodb.crud.exception.NullResourceException;
 import com.mongodb.crud.exception.ResourceNotFoundException;
 import com.mongodb.crud.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,15 +63,6 @@ class TaskServiceTest {
 
             verify(taskRepository, times(1)).findByName(anyString());
             verify(taskRepository, times(1)).save(any(Task.class));
-        }
-
-        @Test
-        @DisplayName("Throw exception when task is null")
-        void Should_ThrowException_When_TaskIsNull() {
-            assertThrows(NullResourceException.class, () -> taskService.create(null));
-
-            verify(taskRepository, times(0)).findByName(anyString());
-            verify(taskRepository, times(0)).save(any(Task.class));
         }
 
         @Test

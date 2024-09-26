@@ -12,9 +12,6 @@ import static com.mongodb.crud.util.ServiceUtil.validateResourceNotDuplicated;
 import static com.mongodb.crud.util.ServiceUtil.validateResourceNotNull;
 import static com.mongodb.crud.util.ServiceUtil.validateStringNotNullOrEmpty;
 
-/**
- * The type Task service.
- */
 @Service
 public class TaskService {
     private static final String RESOURCE_NAME = Task.class.getSimpleName();

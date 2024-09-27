@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import static com.mongodb.crud.util.ServiceUtil.validateResourceExists;
 import static com.mongodb.crud.util.ServiceUtil.validateResourceNotDuplicated;
-import static com.mongodb.crud.util.ServiceUtil.validateResourceNotNull;
 import static com.mongodb.crud.util.ServiceUtil.validateStringNotNullOrEmpty;
 
 @Service
@@ -34,8 +33,6 @@ public class TaskService {
      * @param task the task
      */
     public void create(Task task) {
-        validateResourceNotNull(task, RESOURCE_NAME);
-
         String taskName = task.getName();
         validateStringNotNullOrEmpty(taskName, RESOURCE_NAME, FIELD_NAME);
 

@@ -9,19 +9,6 @@ import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    /**
-     * Handle null resource exception api response.
-     *
-     * @param ex      the ex
-     * @param request the request
-     * @return the api response
-     */
-    @ExceptionHandler(NullResourceException.class)
-    public ApiResponse<Task> handleNullResourceException(NullResourceException ex, WebRequest request) {
-        return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
-    }
-
     /**
      * Handle illegal argument exception api response.
      *

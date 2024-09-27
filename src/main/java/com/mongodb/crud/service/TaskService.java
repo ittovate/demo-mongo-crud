@@ -72,9 +72,13 @@ public class TaskService {
      * @return the task
      */
     public Task update(String targetTaskName, Task taskUpdates) {
+        String newName = taskUpdates.getName();
+        String newDescription = taskUpdates.getDescription();
+        validateStringNotNullOrEmpty(newName, RESOURCE_NAME, FIELD_NAME);
+
         Task targetTask = getByName(targetTaskName);
-        targetTask.setName(taskUpdates.getName());
-        targetTask.setDescription(taskUpdates.getDescription());
+        targetTask.setName(newName);
+        targetTask.setDescription(newDescription);
 
         taskRepository.save(targetTask);
         return targetTask;

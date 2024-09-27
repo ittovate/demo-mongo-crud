@@ -107,6 +107,8 @@ public final class SwaggerConstant {
     //================================================= Update Task =================================================//
     public static final String UPDATE_TASK_SUMMARY = "Update task";
     public static final String UPDATE_TASK_DESCRIPTION = "Update task in database.";
+    public static final String UPDATE_TASK_REQUEST_BODY_DESCRIPTION = "Task name cannot be null or empty.";
+    public static final String UPDATE_TASK_REQUEST_BODY_EXAMPLE = CREATE_TASK_REQUEST_BODY_EXAMPLE;
     public static final String UPDATE_TASK_RESPONSE_DESCRIPTION = "When task is updated.";
     public static final String UPDATE_TASK_RESPONSE_EXAMPLE = """
             {
@@ -122,7 +124,7 @@ public final class SwaggerConstant {
             """;
 
 
-    //================================================= Update Task =================================================//
+    //================================================= Delete Task =================================================//
     public static final String DELETE_TASK_SUMMARY = "Delete task";
     public static final String DELETE_TASK_DESCRIPTION = "Delete task in database.";
     public static final String DELETE_TASK_RESPONSE_DESCRIPTION = "When task is deleted.";
@@ -138,7 +140,6 @@ public final class SwaggerConstant {
                 }
             }
             """;
-
 
     private SwaggerConstant() {
     }

@@ -41,6 +41,8 @@ import static com.mongodb.crud.constant.SwaggerConstant.TASK_CREATED_RESPONSE_EX
 import static com.mongodb.crud.constant.SwaggerConstant.TASK_NOT_FOUND_RESPONSE_DESCRIPTION;
 import static com.mongodb.crud.constant.SwaggerConstant.TASK_NOT_FOUND_RESPONSE_EXAMPLE;
 import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_DESCRIPTION;
+import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_REQUEST_BODY_DESCRIPTION;
+import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_REQUEST_BODY_EXAMPLE;
 import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_RESPONSE_DESCRIPTION;
 import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_RESPONSE_EXAMPLE;
 import static com.mongodb.crud.constant.SwaggerConstant.UPDATE_TASK_SUMMARY;
@@ -100,7 +102,8 @@ public interface SwaggerConfig {
                                     examples = @ExampleObject(value = GET_ALL_TASKS_RESPONSE_EXAMPLE)
                             )
                     )
-            })
+            }
+    )
     com.mongodb.crud.util.ApiResponse<List<Task>> getAll();
 
     @Operation(summary = GET_TASK_SUMMARY, description = GET_TASK_DESCRIPTION,
@@ -123,10 +126,20 @@ public interface SwaggerConfig {
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
                     )
-            })
+            }
+    )
     com.mongodb.crud.util.ApiResponse<Task> getByName(String name);
 
     @Operation(summary = UPDATE_TASK_SUMMARY, description = UPDATE_TASK_DESCRIPTION,
+            requestBody = @RequestBody(
+                    required = true,
+                    description = UPDATE_TASK_REQUEST_BODY_DESCRIPTION,
+                    content = @Content(
+                            mediaType = APPLICATION_JSON,
+                            schema = @Schema(implementation = Task.class),
+                            examples = @ExampleObject(value = UPDATE_TASK_REQUEST_BODY_EXAMPLE)
+                    )
+            ),
             responses = {
                     @ApiResponse(
                             responseCode = OK,
@@ -145,8 +158,18 @@ public interface SwaggerConfig {
                                     schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = BAD_REQUEST,
+                            description = INVALID_TASK_RESPONSE_DESCRIPTION,
+                            content = @Content(
+                                    mediaType = APPLICATION_JSON,
+                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    examples = @ExampleObject(value = INVALID_TASK_RESPONSE_EXAMPLE)
+                            )
                     )
-            })
+            }
+    )
     com.mongodb.crud.util.ApiResponse<Task> update(String targetTaskName, Task taskUpdates);
 
     @Operation(summary = DELETE_TASK_SUMMARY, description = DELETE_TASK_DESCRIPTION,
@@ -169,6 +192,7 @@ public interface SwaggerConfig {
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
                     )
-            })
+            }
+    )
     com.mongodb.crud.util.ApiResponse<Task> delete(String name);
 }

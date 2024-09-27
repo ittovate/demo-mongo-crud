@@ -48,7 +48,6 @@ public class TaskController implements SwaggerConfig {
      * @param task the task to be saved to database
      * @return the created task within custom api response
      */
-//    @Operation(summary = CREATE_SUMMARY, description = CREATE_DESCRIPTION)
     @PostMapping("/")
     public ApiResponse<Task> create(@RequestBody Task task) {
         taskService.create(task);

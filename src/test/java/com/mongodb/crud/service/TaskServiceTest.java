@@ -33,6 +33,8 @@ class TaskServiceTest {
     private final String expectedName = "name";
     private final String expectedDescription = "description";
     private Task task;
+    private Task taskWithNullName;
+    private Task taskWithEmptyName;
 
     @Mock
     private TaskRepository taskRepository;
@@ -42,6 +44,8 @@ class TaskServiceTest {
     @BeforeEach
     void init() {
         task = new Task(expectedName, expectedDescription);
+        taskWithNullName = new Task(null, expectedDescription);
+        taskWithEmptyName = new Task("    ", expectedDescription);
     }
 
     @Nested
@@ -68,8 +72,6 @@ class TaskServiceTest {
         @Test
         @DisplayName("Throw exception when name is null")
         void Should_ThrowException_When_NameIsNull() {
-            Task taskWithNullName = new Task(null, expectedDescription);
-
             assertThrows(IllegalArgumentException.class, () -> taskService.create(taskWithNullName));
 
             verify(taskRepository, times(0)).findByName(anyString());
@@ -79,8 +81,6 @@ class TaskServiceTest {
         @Test
         @DisplayName("Throw exception when name is empty")
         void Should_ThrowException_When_NameIsEmpty() {
-            Task taskWithEmptyName = new Task("    ", expectedDescription);
-
             assertThrows(IllegalArgumentException.class, () -> taskService.create(taskWithEmptyName));
 
             verify(taskRepository, times(0)).findByName(anyString());
@@ -129,6 +129,47 @@ class TaskServiceTest {
         }
     }
 
+    @Nested
+    @DisplayName("Update Task")
+    class UpdateTask {
+        @Test
+        @DisplayName("Update task when it does exist")
+        void Should_UpdateTask_When_TaskDoesExist() {
+            Task taskUpdates = new Task("new name", "new description");
+            when(taskRepository.findByName(anyString())).thenReturn(task);
+            when(taskRepository.save(any(Task.class))).thenReturn(task);
+
+            taskService.update(task.getName(), taskUpdates);
+
+            assertAll("Assert that task is updated",
+                    () -> assertNotNull(task, "Task is null"),
+                    () -> assertEquals(taskUpdates.getName(), task.getName(), "Task name mismatch"),
+                    () -> assertEquals(taskUpdates.getDescription(), task.getDescription(), "Task description mismatch")
+            );
+
+            verify(taskRepository, times(1)).findByName(anyString());
+            verify(taskRepository, times(1)).save(any(Task.class));
+        }
+
+        @Test
+        @DisplayName("Throw exception when name is null")
+        void Should_ThrowException_When_NameIsNull() {
+            assertThrows(IllegalArgumentException.class, () -> taskService.create(taskWithNullName));
+
+            verify(taskRepository, times(0)).findByName(anyString());
+            verify(taskRepository, times(0)).save(any(Task.class));
+        }
+
+        @Test
+        @DisplayName("Throw exception when name is empty")
+        void Should_ThrowException_When_NameIsEmpty() {
+            assertThrows(IllegalArgumentException.class, () -> taskService.create(taskWithEmptyName));
+
+            verify(taskRepository, times(0)).findByName(anyString());
+            verify(taskRepository, times(0)).save(any(Task.class));
+        }
+    }
+
     @Test
     @DisplayName("Get all tasks when they exist")
     void Should_GetAllTasks_When_TasksExist() {
@@ -146,24 +187,6 @@ class TaskServiceTest {
         );
 
         verify(taskRepository, times(1)).findAll();
-    }
-
-    @Test
-    @DisplayName("Update task when it exists")
-    void Should_UpdateTask_When_TaskExists() {
-        Task taskUpdates = new Task("new name", "new description");
-        when(taskRepository.findByName(anyString())).thenReturn(task);
-        when(taskRepository.save(any(Task.class))).thenReturn(task);
-
-        taskService.update(task.getName(), taskUpdates);
-
-        assertAll("Assert that task is updated",
-                () -> assertNotNull(task, "Task is null"),
-                () -> assertEquals(taskUpdates.getName(), task.getName(), "Task name mismatch"),
-                () -> assertEquals(taskUpdates.getDescription(), task.getDescription(), "Task description mismatch")
-        );
-
-        verify(taskRepository, times(1)).save(any(Task.class));
     }
 
     @Test

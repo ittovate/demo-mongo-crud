@@ -1,6 +1,8 @@
 package com.mongodb.crud.constant;
 
-public final class HttpConstant {
+import static com.mongodb.crud.constant.ExceptionConstant.UTILITY_CLASS_INSTANTIATION_MESSAGE;
+
+public final class HTTPConstant {
     public static final String APPLICATION_JSON = "application/json";
 
     public static final String OK = "200";
@@ -16,6 +18,7 @@ public final class HttpConstant {
     public static final String METHOD_NOT_ALLOWED = "405";
     public static final String TOO_MANY_REQUESTS = "429";
 
-    private HttpConstant() {
+    private HTTPConstant() {
+        throw new IllegalStateException(UTILITY_CLASS_INSTANTIATION_MESSAGE);
     }
 }

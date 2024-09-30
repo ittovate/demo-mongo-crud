@@ -6,10 +6,12 @@ import com.mongodb.crud.exception.ResourceNotFoundException;
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_ALREADY_EXIST;
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_FIELD_CANNOT_BE_NULL_OR_EMPTY;
 import static com.mongodb.crud.constant.ExceptionConstant.RESOURCE_NOT_FOUND;
+import static com.mongodb.crud.constant.ExceptionConstant.UTILITY_CLASS_INSTANTIATION_MESSAGE;
 import static java.lang.String.format;
 
 public final class ServiceUtil {
     private ServiceUtil() {
+        throw new IllegalStateException(UTILITY_CLASS_INSTANTIATION_MESSAGE);
     }
 
     /**

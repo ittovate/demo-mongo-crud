@@ -1,6 +1,7 @@
 package com.mongodb.crud.config;
 
 import com.mongodb.crud.entity.Task;
+import com.mongodb.crud.util.APIResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -10,12 +11,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import java.util.List;
 
-import static com.mongodb.crud.constant.HttpConstant.APPLICATION_JSON;
-import static com.mongodb.crud.constant.HttpConstant.BAD_REQUEST;
-import static com.mongodb.crud.constant.HttpConstant.CONFLICT;
-import static com.mongodb.crud.constant.HttpConstant.CREATED;
-import static com.mongodb.crud.constant.HttpConstant.NOT_FOUND;
-import static com.mongodb.crud.constant.HttpConstant.OK;
+import static com.mongodb.crud.constant.HTTPConstant.APPLICATION_JSON;
+import static com.mongodb.crud.constant.HTTPConstant.BAD_REQUEST;
+import static com.mongodb.crud.constant.HTTPConstant.CONFLICT;
+import static com.mongodb.crud.constant.HTTPConstant.CREATED;
+import static com.mongodb.crud.constant.HTTPConstant.NOT_FOUND;
+import static com.mongodb.crud.constant.HTTPConstant.OK;
 import static com.mongodb.crud.constant.SwaggerConstant.CREATE_TASK_DESCRIPTION;
 import static com.mongodb.crud.constant.SwaggerConstant.CREATE_TASK_REQUEST_BODY_DESCRIPTION;
 import static com.mongodb.crud.constant.SwaggerConstant.CREATE_TASK_REQUEST_BODY_EXAMPLE;
@@ -65,7 +66,7 @@ public interface SwaggerConfig {
                             description = TASK_CREATED_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = TASK_CREATED_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -74,7 +75,7 @@ public interface SwaggerConfig {
                             description = INVALID_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = INVALID_TASK_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -83,13 +84,13 @@ public interface SwaggerConfig {
                             description = DUPLICATED_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = DUPLICATED_TASK_RESPONSE_EXAMPLE)
                             )
                     )
             }
     )
-    com.mongodb.crud.util.ApiResponse<Task> create(Task task);
+    APIResponse<Task> create(Task task);
 
     @Operation(summary = GET_ALL_TASKS_SUMMARY, description = GET_ALL_TASKS_DESCRIPTION,
             responses = {
@@ -98,13 +99,13 @@ public interface SwaggerConfig {
                             description = GET_ALL_TASKS_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = GET_ALL_TASKS_RESPONSE_EXAMPLE)
                             )
                     )
             }
     )
-    com.mongodb.crud.util.ApiResponse<List<Task>> getAll();
+    APIResponse<List<Task>> getAll();
 
     @Operation(summary = GET_TASK_SUMMARY, description = GET_TASK_DESCRIPTION,
             responses = {
@@ -113,7 +114,7 @@ public interface SwaggerConfig {
                             description = GET_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = GET_TASK_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -122,13 +123,13 @@ public interface SwaggerConfig {
                             description = TASK_NOT_FOUND_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
                     )
             }
     )
-    com.mongodb.crud.util.ApiResponse<Task> getByName(String name);
+    APIResponse<Task> getByName(String name);
 
     @Operation(summary = UPDATE_TASK_SUMMARY, description = UPDATE_TASK_DESCRIPTION,
             requestBody = @RequestBody(
@@ -146,7 +147,7 @@ public interface SwaggerConfig {
                             description = UPDATE_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = UPDATE_TASK_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -155,7 +156,7 @@ public interface SwaggerConfig {
                             description = TASK_NOT_FOUND_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -164,13 +165,13 @@ public interface SwaggerConfig {
                             description = INVALID_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = INVALID_TASK_RESPONSE_EXAMPLE)
                             )
                     )
             }
     )
-    com.mongodb.crud.util.ApiResponse<Task> update(String targetTaskName, Task taskUpdates);
+    APIResponse<Task> update(String targetTaskName, Task taskUpdates);
 
     @Operation(summary = DELETE_TASK_SUMMARY, description = DELETE_TASK_DESCRIPTION,
             responses = {
@@ -179,7 +180,7 @@ public interface SwaggerConfig {
                             description = DELETE_TASK_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = DELETE_TASK_RESPONSE_EXAMPLE)
                             )
                     ),
@@ -188,11 +189,11 @@ public interface SwaggerConfig {
                             description = TASK_NOT_FOUND_RESPONSE_DESCRIPTION,
                             content = @Content(
                                     mediaType = APPLICATION_JSON,
-                                    schema = @Schema(implementation = com.mongodb.crud.util.ApiResponse.class),
+                                    schema = @Schema(implementation = APIResponse.class),
                                     examples = @ExampleObject(value = TASK_NOT_FOUND_RESPONSE_EXAMPLE)
                             )
                     )
             }
     )
-    com.mongodb.crud.util.ApiResponse<Task> delete(String name);
+    APIResponse<Task> delete(String name);
 }

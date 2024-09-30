@@ -1,11 +1,16 @@
 package com.mongodb.crud.constant;
 
+import static com.mongodb.crud.constant.ExceptionConstant.UTILITY_CLASS_INSTANTIATION_MESSAGE;
+
 public final class SwaggerConstant {
     public static final String TITLE = "Task API";
     public static final String VERSION = "1.0";
     public static final String DESCRIPTION = "Task API for CRUD Operations with MongoDB.";
     public static final String CONTACT_NAME = "ittovate";
     public static final String CONTACT_URL = "https://github.com/orgs/ittovate/";
+
+    public static final String CONTROLLER_NAME = "Task Controller";
+    public static final String CONTROLLER_DESCRIPTION = "Operations related to task management";
 
     //================================================= Create Task =================================================//
     public static final String CREATE_TASK_SUMMARY = "Create task";
@@ -142,5 +147,6 @@ public final class SwaggerConstant {
             """;
 
     private SwaggerConstant() {
+        throw new IllegalStateException(UTILITY_CLASS_INSTANTIATION_MESSAGE);
     }
 }

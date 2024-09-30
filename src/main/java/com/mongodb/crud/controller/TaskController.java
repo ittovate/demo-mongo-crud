@@ -3,7 +3,7 @@ package com.mongodb.crud.controller;
 import com.mongodb.crud.config.SwaggerConfig;
 import com.mongodb.crud.entity.Task;
 import com.mongodb.crud.service.TaskService;
-import com.mongodb.crud.util.ApiResponse;
+import com.mongodb.crud.util.APIResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCES_RETURNED;
-import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_CREATED;
-import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_DELETED;
-import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_FOUND;
-import static com.mongodb.crud.constant.ApiResponseConstant.RESOURCE_UPDATED;
+import static com.mongodb.crud.constant.APIResponseConstant.RESOURCES_RETURNED;
+import static com.mongodb.crud.constant.APIResponseConstant.RESOURCE_CREATED;
+import static com.mongodb.crud.constant.APIResponseConstant.RESOURCE_DELETED;
+import static com.mongodb.crud.constant.APIResponseConstant.RESOURCE_FOUND;
+import static com.mongodb.crud.constant.APIResponseConstant.RESOURCE_UPDATED;
+import static com.mongodb.crud.constant.SwaggerConstant.CONTROLLER_DESCRIPTION;
+import static com.mongodb.crud.constant.SwaggerConstant.CONTROLLER_NAME;
 import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/public/api/v1/tasks")
-@Tag(name = "Task Controller", description = "Operations related to task management")
+@Tag(name = CONTROLLER_NAME, description = CONTROLLER_DESCRIPTION)
 public class TaskController implements SwaggerConfig {
 
     private final TaskService taskService;
@@ -49,9 +51,9 @@ public class TaskController implements SwaggerConfig {
      * @return the created task within custom api response
      */
     @PostMapping("/")
-    public ApiResponse<Task> create(@RequestBody Task task) {
+    public APIResponse<Task> create(@RequestBody Task task) {
         taskService.create(task);
-        return new ApiResponse<>(CREATED.value(), format(RESOURCE_CREATED, RESOURCE_NAME), task);
+        return new APIResponse<>(CREATED.value(), format(RESOURCE_CREATED, RESOURCE_NAME), task);
     }
 
     /**
@@ -60,9 +62,9 @@ public class TaskController implements SwaggerConfig {
      * @return all tasks within custom api response
      */
     @GetMapping("/")
-    public ApiResponse<List<Task>> getAll() {
+    public APIResponse<List<Task>> getAll() {
         List<Task> tasks = taskService.getAll();
-        return new ApiResponse<>(OK.value(), format(RESOURCES_RETURNED, RESOURCE_NAME), tasks);
+        return new APIResponse<>(OK.value(), format(RESOURCES_RETURNED, RESOURCE_NAME), tasks);
     }
 
     /**
@@ -72,9 +74,9 @@ public class TaskController implements SwaggerConfig {
      * @return the task by the name provided within custom api response
      */
     @GetMapping("/{name}/")
-    public ApiResponse<Task> getByName(@PathVariable String name) {
+    public APIResponse<Task> getByName(@PathVariable String name) {
         Task task = taskService.getByName(name);
-        return new ApiResponse<>(OK.value(), format(RESOURCE_FOUND, RESOURCE_NAME), task);
+        return new APIResponse<>(OK.value(), format(RESOURCE_FOUND, RESOURCE_NAME), task);
     }
 
     /**
@@ -85,9 +87,9 @@ public class TaskController implements SwaggerConfig {
      * @return the updated task within custom api response
      */
     @PatchMapping("/{targetTaskName}/")
-    public ApiResponse<Task> update(@PathVariable String targetTaskName, @RequestBody Task taskUpdates) {
+    public APIResponse<Task> update(@PathVariable String targetTaskName, @RequestBody Task taskUpdates) {
         Task updatedTask = taskService.update(targetTaskName, taskUpdates);
-        return new ApiResponse<>(OK.value(), format(RESOURCE_UPDATED, RESOURCE_NAME), updatedTask);
+        return new APIResponse<>(OK.value(), format(RESOURCE_UPDATED, RESOURCE_NAME), updatedTask);
     }
 
     /**
@@ -97,8 +99,8 @@ public class TaskController implements SwaggerConfig {
      * @return the deleted task within custom api response
      */
     @DeleteMapping("/{name}/")
-    public ApiResponse<Task> delete(@PathVariable String name) {
+    public APIResponse<Task> delete(@PathVariable String name) {
         Task deletedTask = taskService.delete(name);
-        return new ApiResponse<>(OK.value(), format(RESOURCE_DELETED, RESOURCE_NAME), deletedTask);
+        return new APIResponse<>(OK.value(), format(RESOURCE_DELETED, RESOURCE_NAME), deletedTask);
     }
 }
